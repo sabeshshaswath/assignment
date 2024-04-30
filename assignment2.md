@@ -42,7 +42,7 @@ CREATE TABLE Payments (
 
 1. Create an ERD (Entity Relationship Diagram) for the database.
 
-
+![erd](image.png)
 
 
 
