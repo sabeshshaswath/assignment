@@ -106,8 +106,7 @@ group by c.CompanyID,CompanyName) a)
 --least 3 years of experience.
 SELECT 
     c.CompanyName,
-    CONCAT(a.firstName, a.lastName) AS ApplicantName
-FROM 
+    CONCAT(a.firstName, a.lastName) AS ApplicantName from 
     Compaines c
 JOIN
 	jobs j ON j.CompanyID=c.CompanyID

@@ -362,3 +362,34 @@ select first_name,last_name from students s inner join
 	(select student_id from Payments group by student_id having COUNT(payment_id)>1) p
 		on p.student_id=s.student_id
 ```
+
+4. --. Calculate the total payments made to courses taught by each teacher. Use subqueries to sum payments for each teacher's courses
+
+```sql
+    select * from teacher t inner join(select c.course_id,c.teacher_id,sum(e.amount) 
+as earnings_made from course c inner join
+(select s.student_id,e.course_id,s.amount from enrollments e inner join 
+(select s.student_id,p.amount from students s inner join payments p on s.student_id=p.student_id)s
+ on e.student_id=s.student_id)e on c.course_id=e.course_id group by c.course_id,c.teacher_id)p 
+ on t.teacher_id=p.teacher_id order by p.earnings_made desc offset 0 rows fetch next 1 rows only;
+```
+
+9. List all combinations of applicants and companies where the company is in a specific city and the applicant has more than 2 years of experience. For example: city=Chennai
+```sql
+select s.student_id, s.first_name, s.last_name, e.course_id, e.course_name, e.total_payment
+from students s 
+inner join (
+    select c.course_id, c.course_name, e.student_id, e.total_payment
+    from course c 
+    inner join (
+        select e.student_id, e.course_id, sum(p.amount) as total_payment
+        from enrollments e 
+        inner join payments p
+        on e.student_id = p.student_id
+        group by e.student_id, e.course_id
+    ) e
+    on c.course_id = e.course_id
+) e
+on e.student_id = s.student_id
+
+```
