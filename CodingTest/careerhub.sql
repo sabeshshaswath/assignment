@@ -102,6 +102,23 @@ group by c.CompanyID,CompanyName having COUNT(JobID)=(select max(tcount) from(
 select CompanyName,c.CompanyID,COUNT(JobID) tcount from Compaines c inner join Jobs j on c.CompanyID=j.CompanyID
 group by c.CompanyID,CompanyName) a)
 
+--10. Find the applicants who have applied for positions in companies located in 'CityX' and have at 
+--least 3 years of experience.
+SELECT 
+    c.CompanyName,
+    CONCAT(a.firstName, a.lastName) AS ApplicantName
+FROM 
+    Compaines c
+JOIN
+	jobs j ON j.CompanyID=c.CompanyID
+JOIN 
+    Applications app ON j.JobID= app.JobID
+JOIN 
+    Applicants a ON app.ApplicantID = a.ApplicantID
+WHERE 
+    c.Location = 'New York'
+    AND a.resume Like '%[3-9] years%'
+
 --11. Retrieve a list of distinct job titles with salaries between $60,000 and $80,000.
 
 select distinct JobTitle from jobs where salary between 60000 and 80000;
@@ -149,8 +166,18 @@ full join Jobs j on j.JobID=ap.JobID;
 --20. List all combinations of applicants and companies where the company is in a specific city and the 
 --applicant has more than 2 years of experience. For example: city=Chennai
 
-select CompanyName from Compaines where Location='Austin' 
 
-
-select * from Applicants where Resume like '3% years of experience%'
-
+SELECT 
+    c.CompanyName,
+    CONCAT(a.firstName, a.lastName) AS ApplicantName
+FROM 
+    Compaines c
+JOIN
+	jobs j ON j.CompanyID=c.CompanyID
+JOIN 
+    Applications app ON j.JobID= app.JobID
+JOIN 
+    Applicants a ON app.ApplicantID = a.ApplicantID
+WHERE 
+    c.Location = 'austin'
+    AND a.resume Like '%[2-9] years%'
