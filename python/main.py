@@ -83,7 +83,7 @@ def student_management(obj):
                     email = input("Enter email: ")
                     phone_number = input("Enter phone number: ")
                     newstudent=Student(student_id,first_name,last_name,date_of_birth,email,phone_number)
-                    obj.update_student()
+                    obj.update_student(newstudent)
             elif choice == "4":
                     StudentID=int(input("Enter the StudentID: "))
                     CourseID=int(input("Enter the CourseID: "))

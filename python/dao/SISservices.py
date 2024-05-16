@@ -12,7 +12,7 @@ class StudentManagement:
             print(self.cursor.fetchone())
         except Exception as e:
             self.connection.rollback()
-        raise StudentNotFoundException(f"Student with ID {stu_id} not found.")
+            raise StudentNotFoundException(f"Student with ID {stu_id} not found.")
     def add_student(self,student):
         try:
             self.cursor.execute("INSERT INTO Students (student_id, first_name, last_name, date_of_birth, email, phone_number) VALUES (?, ?, ?, ?, ?, ?)"
@@ -28,7 +28,7 @@ class StudentManagement:
             self.connection.commit()
         except Exception as e:
             self.connection.rollback()
-        raise StudentNotFoundException(f"Error")
+            raise StudentNotFoundException(f"Error {str(e)}")
     def EnrollCourse(self,student_id,course_id):
         try:
             self.cursor.execute("select enrollment_id from enrollments order by enrollment_id desc offset 0 rows fetch next 1 rows only")
